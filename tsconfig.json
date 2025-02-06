@@ -3,5 +3,6 @@
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.test.ts"]
 }
