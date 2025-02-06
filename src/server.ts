@@ -10,17 +10,17 @@ app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
 app.get('/', (c) => c.text('You can access: /static/hello.txt'))
 app.get('*', serveStatic({ path: './static/fallback.txt' }))
 
+// 動作確認用のデータ
 const users = [
   { id: '1', name: 'John', age: 20 },
   { id: '2', name: 'Jane', age: 21 },
 ]
 
-// 受け取りたいデータ型を定義
-const idSchema = z.object({
+const reqIdSchema = z.object({
   id: z.string(),
 })
 
-const userCreateSchema = z.object({
+const reqUserCreateSchema = z.object({
   name: z.string(),
   age: z.number(),
 })
@@ -30,11 +30,11 @@ const userCreateSchema = z.object({
  * @param id ユーザーのID
  * @returns ユーザーの情報
  */
-app.get('/api/users/:id',
-  zValidator('param', idSchema),
+app
+.get('/api/users/:id',
+  zValidator('param', reqIdSchema),
   (c) => {
   const { id } = c.req.valid('param')
-  
   const user = users.find((user) => user.id === id)
 
   if (!user) {
@@ -55,17 +55,18 @@ app.get('/api/users/:id',
  * @param age ユーザーの年齢
  * @returns 作成したユーザーの情報
  */
-app.post('/api/users',
-  zValidator('json', userCreateSchema),
+.post('/api/users',
+  zValidator('json', reqUserCreateSchema),
   (c) => {
   const { name, age } = c.req.valid('json')
-  return c.json({ message: `${name} is ${age} years old` })
+
+  users.push({ id: String(users.length + 1), name, age })
+  const newUser = users[users.length - 1]
+
+  return c.json(newUser, 201)
 })
 
-const routes = app.routes
-console.log('routes:', routes)
-
 // routesの型を取り、exportしておく 
-export type AppType = typeof routes
+export type AppType = typeof app
 
 export default app
