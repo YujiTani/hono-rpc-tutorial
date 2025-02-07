@@ -4,6 +4,7 @@ import { swaggerUI } from "@hono/swagger-ui";
 
 const app = new OpenAPIHono()
 
+// 静的ファイルを提供
 app.use('/static/*', serveStatic({ root: './' }))
 app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
 app.get('/', (c) => c.text('You can access: /static/hello.txt'))
@@ -14,6 +15,9 @@ const users = [
   { id: '1', name: 'John', age: 20 },
   { id: '2', name: 'Jane', age: 21 },
 ]
+
+
+// スキーマを定義
 
 /**
  * ユーザーのIDを取得するためのリクエストパラメータ
@@ -103,14 +107,6 @@ app
           },
         },
       },
-      500: {
-        description: '例外エラー',
-        content: {
-          'application/json': {
-            schema: resErrorSchema,
-          },
-        },
-      },
     },
   }),
   async (c) => {
@@ -189,6 +185,18 @@ app
 
     return c.json(newUser, 201)
   },
+  (result, c) => {
+    console.log('result', result)
+
+    if (!result.success) {
+      return c.json(
+        {
+          error: result.error.message,
+        },
+        400
+      );
+    }
+  }
 )
 
 // routesの型を取り、exportしておく 
