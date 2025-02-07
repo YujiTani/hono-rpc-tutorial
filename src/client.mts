@@ -9,7 +9,7 @@ const client = hc<AppType>(`http://localhost:3000/`)
 // @ts-ignore
 const res = await client.api.users.$post({
     json: {
-        name: 'tarou',
+        name: '',
         age: 20,
     },
 })
@@ -19,15 +19,43 @@ if (res.ok) {
     console.log(data)
 }
 
+if (res.status === 400) {
+    const data = await res.json()
+    console.log(res.status, data)
+}
+
 // ユーザーを取得
 // @ts-ignore
 const res2 = await client.api.users[':id'].$get({
+    param: {
+        id: '299',
+    },
+})
+
+if (res2.status === 404) {
+    const data = await res2.json()
+    console.log(res2.status, data)
+}
+
+if (res2.ok) {
+    const data = await res2.json()
+    console.log(data)
+}
+
+// ユーザーを取得
+// @ts-ignore
+const res3 = await client.api.users[':id'].$get({
     param: {
         id: '1',
     },
 })
 
-if (res2.ok) {
-    const data = await res2.json()
-    console.log(data)
+if (res3.status === 404) {
+    const data = await res3.json()
+    console.log(res3.status, data)
+}
+
+if (res3.ok) {
+    const data = await res3.json()
+    console.log(res3.status, data)
 }
