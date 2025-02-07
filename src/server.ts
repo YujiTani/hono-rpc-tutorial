@@ -1,5 +1,6 @@
 import { serveStatic } from 'hono/bun'
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
+import { swaggerUI } from "@hono/swagger-ui";
 
 const app = new OpenAPIHono()
 
@@ -201,5 +202,7 @@ app.doc31("/doc", {
     title: "My API",
   },
 });
+
+app.get("/ui", swaggerUI({ url: "/doc" }));
 
 export default app
