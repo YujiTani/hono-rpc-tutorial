@@ -40,7 +40,10 @@
     // 使用されていない関数パラメータをチェックします（現状は無効）。
     "noUnusedParameters": false,
     // インデックスシグネチャによるプロパティアクセスを禁止し、予期しないアクセスを防ぎます（現状は無効）。
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    // 出力先のディレクトリを指定。
+    "outDir": "./dist"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.test.ts", "src/**/*.mts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.test.ts", "src/**/*.mts"],
+  "exclude": ["node_modules", "dist"]
 }

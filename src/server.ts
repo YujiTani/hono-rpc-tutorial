@@ -6,7 +6,7 @@ const app = new OpenAPIHono()
 
 // 静的ファイルを提供
 app.use('/static/*', serveStatic({ root: './' }))
-app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }))
+app.use('/favicon.ico', serveStatic({ path: './static/favicon.ico' }))
 app.get('/', (c) => c.text('You can access: /static/hello.txt'))
 app.get('*', serveStatic({ path: './static/fallback.txt' }))
 
