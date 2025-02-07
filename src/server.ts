@@ -194,7 +194,7 @@ app
 // routesの型を取り、exportしておく 
 export type AppType = typeof app
 
-
+// ドキュメントを生成
 app.doc31("/doc", {
   openapi: "3.1.0",
   info: {
@@ -203,6 +203,7 @@ app.doc31("/doc", {
   },
 });
 
+// ドキュメントを表示
 app.get("/ui", swaggerUI({ url: "/doc" }));
 
 export default app
