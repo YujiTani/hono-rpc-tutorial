@@ -86,8 +86,24 @@ app
         },
         description: 'ユーザーの情報',
       },
+      400: {
+        description: 'バリデーションエラー',
+        content: {
+          'application/json': {
+            schema: resErrorSchema,
+          },
+        },
+      },
       404: {
         description: 'ユーザーが見つかりません',
+        content: {
+          'application/json': {
+            schema: resErrorSchema,
+          },
+        },
+      },
+      500: {
+        description: '例外エラー',
         content: {
           'application/json': {
             schema: resErrorSchema,
@@ -109,9 +125,21 @@ app
         404
       )
     }
-    
+
     return c.json(user, 200)
   },
+  (result, c) => {
+    console.log('result', result)
+
+    if (!result.success) {
+      return c.json(
+        {
+          error: result.error.message,
+        },
+        400
+      );
+    }
+  }
 )
 
 /**
@@ -164,5 +192,14 @@ app
 
 // routesの型を取り、exportしておく 
 export type AppType = typeof app
+
+
+app.doc31("/doc", {
+  openapi: "3.1.0",
+  info: {
+    version: "1.0.0",
+    title: "My API",
+  },
+});
 
 export default app

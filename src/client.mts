@@ -10,13 +10,13 @@ const client = hc<AppType>(`http://localhost:3000/`)
 const res = await client.api.users.$post({
     json: {
         name: '',
-        age: 20,
+        age: '20',
     },
 })
 
 if (res.ok) {
     const data = await res.json()
-    console.log(data)
+    console.log(res.status, data)
 }
 
 if (res.status === 400) {
@@ -39,7 +39,7 @@ if (res2.status === 404) {
 
 if (res2.ok) {
     const data = await res2.json()
-    console.log(data)
+    console.log(res2.status, data)
 }
 
 // ユーザーを取得
